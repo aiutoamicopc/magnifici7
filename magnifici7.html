@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Magnifici 7 — Checklist del tuo progetto web</title>
+</head>
+<body>
+<div id="m7-root"></div>
+
+<style>
+  html, body { margin: 0; padding: 0; }
+  #m7-root * { box-sizing: border-box; }
+  #m7-root {
+    --bg: #0b0818;
+    --panel: linear-gradient(145deg, #110d22, #1a1430);
+    --panel-flat: #150f28;
+    --border: rgba(140, 100, 220, 0.12);
+    --accent: #b388ff;
+    --accent-dim: #6a4c9c;
+    --text: #e8e0f0;
+    --text-dim: #9a8cb8;
+    --text-faint: #6f6488;
+    --gold: #ffd54f;
+    --gold-dark: #f9a825;
+    --green: #4caf84;
+    --surface-1: rgba(20,15,40,0.5);
+    --surface-2: rgba(0,0,0,0.25);
+    --track: #1f1738;
+    --btn-bg: rgba(255,255,255,0.04);
+    --swatch-border: rgba(255,255,255,0.15);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px;
+    min-height: 100vh;
+    transition: background 0.4s ease;
+  }
+  #m7-root .m7-theme-picker { display: flex; align-items: center; gap: 6px; margin-left: 4px; }
+  #m7-root .m7-theme-swatch {
+    width: 20px; height: 20px; border-radius: 50%; cursor: pointer;
+    border: 2px solid var(--swatch-border);
+    transition: 0.2s;
+  }
+  #m7-root .m7-theme-swatch:hover { transform: scale(1.15); }
+  #m7-root .m7-theme-swatch.active { border-color: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,0.25); }
+  #m7-root .m7-container { max-width: 1200px; margin: 0 auto; }
+
+  #m7-root .m7-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  #m7-root .m7-title-block { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  #m7-root .m7-rocket { font-size: 1.6rem; }
+  #m7-root .m7-project-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--accent);
+    background: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 1px dashed transparent;
+    max-width: 420px;
+  }
+  #m7-root .m7-project-name:hover, #m7-root .m7-project-name:focus {
+    border-bottom: 1px dashed var(--accent-dim);
+  }
+  #m7-root .m7-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    background: rgba(255, 213, 79, 0.1);
+    border: 1px solid rgba(255, 213, 79, 0.25);
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  #m7-root .m7-header-actions { display: flex; gap: 10px; }
+  #m7-root .m7-btn {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--btn-bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.2s;
+  }
+  #m7-root .m7-btn:hover { background: rgba(140,100,220,0.15); border-color: var(--accent-dim); }
+  #m7-root .m7-btn.m7-danger:hover { background: rgba(220,80,80,0.15); border-color: rgba(220,80,80,0.4); }
+
+  #m7-root .m7-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    background: rgba(0,0,0,0.25);
+    padding: 14px 22px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+  }
+  #m7-root .m7-stats .m7-stat { display: flex; align-items: baseline; gap: 6px; font-size: 0.85rem; color: var(--text-dim); }
+  #m7-root .m7-stats strong { color: var(--text); font-size: 1.05rem; }
+
+  #m7-root .m7-progress-label {
+    display: flex; justify-content: space-between;
+    font-size: 0.72rem; color: var(--text-faint); margin-bottom: 6px;
+  }
+  #m7-root .m7-bar { width: 100%; height: 10px; background: var(--track); border-radius: 20px; overflow: hidden; margin-bottom: 22px; }
+  #m7-root .m7-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-dim), var(--accent)); border-radius: 20px; transition: width 0.6s ease; }
+
+  #m7-root .m7-fasi { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 22px; }
+  @media (max-width: 900px) { #m7-root .m7-fasi { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 560px) { #m7-root .m7-fasi { grid-template-columns: repeat(2, 1fr); } }
+
+  #m7-root .m7-fase-card {
+    background: var(--surface-1);
+    padding: 14px 8px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-align: center;
+    transition: 0.2s;
+  }
+  #m7-root .m7-fase-card:hover { background: rgba(40,28,70,0.6); transform: translateY(-2px); }
+  #m7-root .m7-fase-card.active { border-color: var(--accent-dim); background: rgba(60,40,110,0.25); box-shadow: 0 0 0 1px rgba(179,136,255,0.25); }
+  #m7-root .m7-fase-card .m7-icon { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+  #m7-root .m7-fase-card .m7-nome { font-weight: 600; font-size: 0.72rem; color: var(--text); display: block; }
+  #m7-root .m7-fase-card .m7-status { font-size: 0.7rem; display: block; margin-top: 3px; }
+  #m7-root .m7-fase-card .m7-count { font-size: 0.62rem; color: var(--text-faint); display: block; margin-top: 2px; }
+  #m7-root .m7-mini { width: 100%; height: 3px; background: var(--track); border-radius: 10px; margin-top: 6px; overflow: hidden; }
+  #m7-root .m7-mini-fill { height: 100%; width: 0%; background: var(--accent-dim); border-radius: 10px; transition: width 0.5s; }
+
+  #m7-root .m7-dettaglio { background: var(--panel); padding: 22px; border-radius: 20px; border: 1px solid var(--border); }
+  #m7-root .m7-dettaglio-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+  #m7-root .m7-dettaglio-head h2 { font-size: 1.15rem; color: var(--text); font-weight: 700; margin: 0; }
+  #m7-root .m7-phase-badge { font-size: 0.72rem; color: var(--text-dim); background: var(--surface-2); padding: 4px 12px; border-radius: 20px; }
+
+  #m7-root .m7-check-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 16px; border-radius: 12px;
+    background: var(--surface-1);
+    margin-bottom: 6px;
+    border: 1px solid rgba(140,100,220,0.05);
+  }
+  #m7-root .m7-check-item.done { border-left: 4px solid var(--green); background: rgba(60,180,120,0.06); }
+  #m7-root .m7-check-item.done .m7-title { color: var(--green); text-decoration: line-through; }
+  #m7-root .m7-check-item.booster { border-left: 4px solid var(--gold); background: rgba(255,213,79,0.05); }
+  #m7-root .m7-check-item.booster.done { border-left: 4px solid var(--gold-dark); background: rgba(255,213,79,0.09); }
+  #m7-root .m7-check-item input[type="checkbox"] { width: 19px; height: 19px; margin-top: 2px; accent-color: var(--accent-dim); cursor: pointer; flex-shrink: 0; }
+  #m7-root .m7-check-item input[type="checkbox"]:checked { accent-color: var(--green); }
+  #m7-root .m7-check-item.booster input[type="checkbox"]:checked { accent-color: var(--gold-dark); }
+  #m7-root .m7-done-icon { margin-right: 4px; }
+  #m7-root .m7-content { flex: 1; min-width: 0; }
+  #m7-root .m7-title { font-weight: 500; color: var(--text); font-size: 0.87rem; }
+  #m7-root .m7-booster-badge {
+    font-size: 0.56rem; font-weight: 700; background: rgba(255,213,79,0.14); color: var(--gold);
+    padding: 2px 9px; border-radius: 20px; margin-left: 8px; white-space: nowrap;
+  }
+  #m7-root .m7-spiegazione {
+    font-size: 0.79rem; color: var(--text-dim); margin-top: 8px; line-height: 1.6;
+    display: none; background: var(--surface-2); padding: 10px 12px; border-radius: 10px;
+    border-left: 2px solid var(--accent-dim);
+  }
+  #m7-root .m7-note {
+    width: 100%; margin-top: 8px; background: var(--surface-2);
+    border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px;
+    color: #c8bce0; font-size: 0.78rem; font-family: inherit; resize: vertical; min-height: 34px;
+  }
+  #m7-root .m7-note::placeholder { color: var(--text-faint); }
+  #m7-root .m7-toggle {
+    background: rgba(140,100,220,0.06); border: none; color: var(--accent);
+    cursor: pointer; font-size: 0.68rem; padding: 4px 12px; border-radius: 20px;
+    transition: 0.2s; flex-shrink: 0; align-self: flex-start; white-space: nowrap;
+  }
+  #m7-root .m7-toggle:hover { background: rgba(140,100,220,0.15); }
+
+  #m7-root .m7-modal-overlay {
+    position: fixed; inset: 0; background: rgba(5,3,12,0.75);
+    display: flex; align-items: center; justify-content: center; z-index: 999; padding: 20px;
+  }
+  #m7-root .m7-modal {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 20px;
+    padding: 32px; max-width: 420px; width: 100%; text-align: center;
+  }
+  #m7-root .m7-modal h2 { color: var(--accent); margin: 8px 0 6px; font-size: 1.3rem; }
+  #m7-root .m7-modal p { color: var(--text-dim); font-size: 0.85rem; margin-bottom: 18px; }
+  #m7-root .m7-modal input {
+    width: 100%; background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px; color: var(--text); font-size: 0.95rem; margin-bottom: 14px;
+  }
+  #m7-root .m7-modal button {
+    width: 100%; background: linear-gradient(90deg, var(--accent-dim), var(--accent)); border: none;
+    color: white; font-weight: 600; padding: 12px; border-radius: 10px; cursor: pointer; font-size: 0.9rem;
+  }
+
+  #m7-root .m7-modal-tabs { display: flex; gap: 8px; margin-bottom: 18px; background: var(--surface-2); padding: 4px; border-radius: 12px; }
+  #m7-root .m7-modal-tab {
+    flex: 1; padding: 9px; border-radius: 9px; border: none; background: transparent;
+    color: var(--text-dim); font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s;
+  }
+  #m7-root .m7-modal-tab.active { background: rgba(140,100,220,0.2); color: var(--text); }
+  #m7-root .m7-modal-panel { display: none; }
+  #m7-root .m7-modal-panel.active { display: block; }
+  #m7-root .m7-modal-dropzone {
+    border: 2px dashed var(--border); border-radius: 14px; padding: 24px 16px;
+    text-align: center; cursor: pointer; margin-bottom: 14px; transition: 0.2s;
+  }
+  #m7-root .m7-modal-dropzone:hover, #m7-root .m7-modal-dropzone.dragover { border-color: var(--accent-dim); background: rgba(140,100,220,0.06); }
+  #m7-root .m7-modal-dropzone .m7-dz-icon { font-size: 1.6rem; display: block; margin-bottom: 6px; }
+  #m7-root .m7-modal-dropzone .m7-dz-text { font-size: 0.78rem; color: var(--text-dim); }
+  #m7-root .m7-modal-filename { font-size: 0.75rem; color: var(--accent); margin-top: 8px; word-break: break-all; }
+
+  #m7-root .m7-btn.m7-send { background: linear-gradient(90deg, var(--accent-dim), var(--accent)); border: none; color: #fff; font-weight: 600; }
+  #m7-root .m7-btn.m7-send:hover { filter: brightness(1.1); background: linear-gradient(90deg, var(--accent-dim), var(--accent)); }
+  #m7-root .m7-btn.m7-send:disabled { opacity: 0.4; cursor: not-allowed; filter: none; }
+
+  @media print {
+    #m7-root .m7-header-actions, #m7-root .m7-fasi, #m7-root .m7-toggle { display: none !important; }
+    #m7-root .m7-spiegazione { display: block !important; }
+    #m7-root { background: white; color: #111; padding: 0; }
+    #m7-root .m7-dettaglio { background: white; border: none; }
+    #m7-root .m7-check-item { break-inside: avoid; border: 1px solid #ccc; background: white; }
+    #m7-root .m7-title { color: #111 !important; }
+    #m7-root .m7-spiegazione { color: #333; background: #f4f4f4; }
+  }
+</style>
+
+<script>
+(function() {
+  // ============================================================
+  // CONFIGURAZIONE — modifica pure questi valori
+  // ============================================================
+  const CONFIG = {
+    recipientEmail: "maioliniclaudio@gmail.com", // <-- email a cui arrivano i progressi tramite "Invia a"
+    minPercentToSend: 50, // percentuale minima di completamento totale per poter inviare
+    ebookUrl: "https://TUONOME.github.io/magnifici7/i-magnifici-7-il-metodo.pdf" // <-- URL del PDF ebook
+  };
+
+  const THEMES = {
+    antracite: { label: "Antracite", swatch: "#8fa6b8",
+      vars: { "--bg": "#15171a", "--panel": "linear-gradient(145deg, #1c1e22, #24272c)", "--border": "rgba(180,190,200,0.14)",
+        "--accent": "#9fb4c4", "--accent-dim": "#57626c", "--text": "#e6e9ec", "--text-dim": "#9aa3ab", "--text-faint": "#6b747c",
+        "--gold": "#ffd54f", "--gold-dark": "#f9a825", "--green": "#4caf84",
+        "--surface-1": "rgba(255,255,255,0.045)", "--surface-2": "rgba(0,0,0,0.25)", "--track": "#2a2d31",
+        "--btn-bg": "rgba(255,255,255,0.05)", "--swatch-border": "rgba(255,255,255,0.15)" } },
+    lilla: { label: "Lilla", swatch: "#b98add",
+      vars: { "--bg": "#f6f1fb", "--panel": "linear-gradient(145deg, #ffffff, #f1e7fb)", "--border": "rgba(150,100,200,0.2)",
+        "--accent": "#9b5de5", "--accent-dim": "#b98add", "--text": "#3a2d4d", "--text-dim": "#6d5f82", "--text-faint": "#9184a3",
+        "--gold": "#f0b429", "--gold-dark": "#c8890f", "--green": "#2e9e6d",
+        "--surface-1": "rgba(155,93,229,0.07)", "--surface-2": "rgba(155,93,229,0.06)", "--track": "#e4d9f2",
+        "--btn-bg": "rgba(0,0,0,0.045)", "--swatch-border": "rgba(0,0,0,0.15)" } },
+    verde: { label: "Verde Smeraldo", swatch: "#6fe3b4",
+      vars: { "--bg": "#081410", "--panel": "linear-gradient(145deg, #0d1f18, #123024)", "--border": "rgba(111,227,180,0.14)",
+        "--accent": "#6fe3b4", "--accent-dim": "#2f8f6a", "--text": "#e2f5ec", "--text-dim": "#9dc4b3", "--text-faint": "#6c9384",
+        "--gold": "#ffd54f", "--gold-dark": "#f9a825", "--green": "#6fe3b4",
+        "--surface-1": "rgba(20,15,40,0.5)", "--surface-2": "rgba(0,0,0,0.25)", "--track": "#123024",
+        "--btn-bg": "rgba(255,255,255,0.04)", "--swatch-border": "rgba(255,255,255,0.15)" } },
+    blu: { label: "Blu Oceano", swatch: "#7ec8ff",
+      vars: { "--bg": "#061420", "--panel": "linear-gradient(145deg, #0a1f30, #0f2c44)", "--border": "rgba(126,200,255,0.14)",
+        "--accent": "#7ec8ff", "--accent-dim": "#2f6f9c", "--text": "#dff0fa", "--text-dim": "#9dc0d6", "--text-faint": "#6b8fa3",
+        "--gold": "#ffd54f", "--gold-dark": "#f9a825", "--green": "#4caf84",
+        "--surface-1": "rgba(20,15,40,0.5)", "--surface-2": "rgba(0,0,0,0.25)", "--track": "#0f2c44",
+        "--btn-bg": "rgba(255,255,255,0.04)", "--swatch-border": "rgba(255,255,255,0.15)" } }
+  };
+
+  function applyTheme(name) {
+    const theme = THEMES[name] || THEMES.antracite;
+    Object.entries(theme.vars).forEach(([k, v]) => root.style.setProperty(k, v));
+  }
+  const FASI = [
+    { icon: "🔍", nome: "SEO", checks: [
+      ["Scegli e registra un dominio .it professionale","Un dominio breve, coerente col brand e con estensione .it aumenta la fiducia dei clienti italiani e migliora il posizionamento locale su Google."],
+      ["Collega il dominio a Shopify","Senza un dominio proprio collegato correttamente il negozio resta su un indirizzo generico, meno credibile e più difficile da promuovere."],
+      ["Ottimizza titolo e meta description del negozio","Sono il primo testo che l'utente vede su Google: un titolo chiaro con la keyword giusta aumenta il tasso di click dai risultati di ricerca."],
+      ["Verifica il sito su Google Search Console","Ti mostra come Google vede il sito, quali pagine sono indicizzate e se ci sono errori tecnici che bloccano il posizionamento."],
+      ["Aggiungi Google Analytics 4 (GA4)","Senza dati sul traffico non puoi sapere cosa funziona: GA4 mostra da dove arrivano i visitatori e cosa fanno sul sito."],
+      ["Crea sitemap e inviala a Google","Una sitemap XML aiuta Google a scoprire e indicizzare più rapidamente tutte le pagine del negozio, comprese quelle nuove."],
+      ["Imposta reindirizzamenti 301 (http→https, www→non-www)","Evita di disperdere l'autorità SEO tra versioni diverse dello stesso URL e previene contenuti duplicati agli occhi di Google."],
+      ["Crea un file robots.txt personalizzato","Indica ai motori di ricerca quali pagine scansionare e quali escludere (es. checkout), ottimizzando il budget di scansione."],
+      ["Collega il sito a Google My Business (per SEO locale)","Fa comparire il negozio nelle ricerche geolocalizzate e nelle mappe, fondamentale se hai anche una componente fisica o locale."],
+      ["Ottimizza le immagini dei prodotti (nome file + ALT text)","Immagini ben nominate e con testo alternativo migliorano l'accessibilità e possono portare traffico extra da Google Immagini."],
+      ["Imposta i dati strutturati (schema.org per eCommerce)","Permette a Google di mostrare prezzo, disponibilità e recensioni direttamente nei risultati di ricerca, aumentando i click."],
+      ["Fai un audit SEO di base con Ubersuggest o Ahrefs free","Individua subito gli errori tecnici più gravi (velocità, link rotti, contenuti duplicati) prima di investire tempo in altro."],
+      ["Monitora le parole chiave e le posizioni su Google","Senza monitoraggio non sai se i tuoi sforzi SEO funzionano davvero: ti serve per capire cosa migliorare e cosa lasciare stare."],
+      ["🏆 BOOSTER — Ottieni un punteggio PageSpeed > 90 su desktop e mobile","Un sito veloce riduce l'abbandono, è un fattore di ranking diretto per Google e aumenta sensibilmente le conversioni."]
+    ]},
+    { icon: "📝", nome: "Blog", checks: [
+      ["Attiva il blog su Shopify","È la base per fare content marketing: senza un blog attivo non hai un canale per intercettare traffico organico da Google."],
+      ["Scrivi 2 articoli a settimana (800+ parole)","La costanza segnala a Google che il sito è attivo e in crescita, e aumenta le probabilità di posizionarti su più keyword."],
+      ["Ottimizza articoli con keyword e link interni","Le keyword giuste portano traffico mirato, i link interni distribuiscono autorità e tengono i lettori più a lungo sul sito."],
+      ["Aggiungi immagini e ALT text","Rende gli articoli più leggibili e accessibili, e ogni immagine ottimizzata è un'opportunità in più di essere trovato su Google Immagini."],
+      ["Crea un calendario editoriale mensile","Pianificare in anticipo evita di scrivere a caso e ti permette di coprire in modo organico tutti i temi che contano per il tuo pubblico."],
+      ["Scrivi un articolo 'pilastro' da 2000+ parole","Un contenuto di riferimento molto completo attira più backlink naturali e diventa la pagina a cui tutti gli altri articoli rimandano."],
+      ["Crea 5 articoli correlati (cluster)","Un cluster di contenuti attorno al pilastro rafforza l'autorità tematica del sito agli occhi di Google su quell'argomento."],
+      ["Aggiungi una CTA in ogni articolo","Un articolo che informa ma non guida all'azione è traffico sprecato: la CTA trasforma il lettore in potenziale cliente o iscritto."],
+      ["Ottimizza i titoli per il click (hook, numeri)","Un titolo con un numero o una promessa chiara aumenta il tasso di click nei risultati di Google e nei social."],
+      ["Aggiungi 'Tempo di lettura' e indice","Migliora l'esperienza di lettura, soprattutto su articoli lunghi, e riduce la frequenza di rimbalzo perché l'utente sa cosa aspettarsi."],
+      ["Crea una pagina 'Risorse gratuite' con ebook","Un lead magnet gratuito è uno dei modi più efficaci per raccogliere email di persone realmente interessate al tuo argomento."],
+      ["Fai interlinking tra tutti gli articoli","Collegare gli articoli tra loro aiuta Google a capire la struttura del sito e tiene i visitatori a navigare più pagine."],
+      ["Aggiorna periodicamente gli articoli più vecchi","Un contenuto aggiornato mantiene o recupera posizioni su Google, che premia le pagine mantenute nel tempo rispetto a quelle abbandonate."],
+      ["Traccia quali articoli portano più traffico e vendite","Sapere cosa funziona ti permette di scrivere di più su quei temi invece di continuare a scommettere alla cieca."],
+      ["🏆 BOOSTER — 1.000 visite da Google in 30 giorni","È la prova che la strategia di contenuti sta effettivamente generando traffico organico stabile, non solo articoli pubblicati nel vuoto."]
+    ]},
+    { icon: "🌍", nome: "Satellite", checks: [
+      ["Crea un blog su Altervista con contenuti esoterici","Un sito satellite tematico crea un ulteriore punto di ingresso per il pubblico interessato e un backlink verso il negozio."],
+      ["Crea una pagina su Blogger (Google)","Essendo di proprietà Google, i contenuti su Blogger tendono a essere indicizzati rapidamente e possono aiutare la visibilità del brand."],
+      ["Pubblica articoli su Medium con link al negozio","Medium ha già un'autorità di dominio molto alta: pubblicare lì dà visibilità immediata a un pubblico che non ti conosce ancora."],
+      ["Crea una pagina Pinterest per il negozio","Pinterest funziona come motore di ricerca visivo ed è particolarmente efficace per prodotti legati a estetica, benessere e stile di vita."],
+      ["Crea un profilo su Quora e rispondi a domande","Rispondere a domande reali delle persone ti posiziona come esperto e porta traffico qualificato di chi sta già cercando risposte."],
+      ["Apri un canale Telegram con contenuti esclusivi","Ti dà un canale diretto e senza algoritmo per comunicare con la community più fedele, fuori dal controllo dei social."],
+      ["Crea un profilo su Reddit (subreddit italiani)","Le community di nicchia su Reddit possono generare traffico molto mirato, ma richiedono di partecipare con valore reale, non solo promozione."],
+      ["Scrivi un guest post per un blog esterno","Un guest post su un sito con pubblico affine ti dà accesso a un'audience già costruita e un backlink di qualità."],
+      ["Crea un profilo su Tumblr con contenuti visivi","Utile per contenuti visivi ed estetici che si diffondono facilmente per reblog, ampliando la portata organica del brand."],
+      ["Apri un account su Vocal.media con articoli","Un'altra piattaforma ad alta autorità dove pubblicare storie e articoli che rimandano al tuo negozio, ampliando la tua impronta online."],
+      ["Crea un canale WhatsApp Business","Un canale broadcast diretto per annunci e novità, con un tasso di apertura molto più alto rispetto alle email."],
+      ["Pubblica un articolo su LinkedIn Pulse","Se il tuo pubblico ha anche un profilo professionale, LinkedIn Pulse ti dà visibilità aggiuntiva e credibilità come esperto del settore."],
+      ["Monitora i backlink ottenuti con uno strumento gratuito","Verificare quali siti stanno effettivamente linkando al negozio ti dice se la rete satellite sta funzionando o va corretta."],
+      ["Verifica che ogni sito satellite linki correttamente al negozio","Un link rotto o mal configurato vanifica tutto il lavoro fatto: va controllato periodicamente che tutti i rimandi funzionino."],
+      ["🏆 BOOSTER — 5 backlink da siti con DA > 30","Backlink da siti autorevoli sono uno dei segnali più forti che Google usa per decidere quanto fidarsi del tuo dominio."]
+    ]},
+    { icon: "📱", nome: "Social", checks: [
+      ["TikTok — video brevi di Anna (letture, cristalli)","I video brevi sono oggi il formato con la maggiore portata organica potenziale, ideali per farsi scoprire da un pubblico nuovo."],
+      ["Instagram — Reels, Stories e contenuti visivi","Instagram resta centrale per costruire un'identità visiva riconoscibile e mantenere un contatto quotidiano con chi già ti segue."],
+      ["YouTube — video tutorial e letture dei tarocchi","I video più lunghi su YouTube costruiscono fiducia e autorità nel tempo, e restano ricercabili per anni a differenza dei post social."],
+      ["Collega i social a Shopify (canali di vendita)","Permette di vendere direttamente dai social e tracciare quali post generano effettivamente ordini, non solo like."],
+      ["Crea un template visivo coerente per tutti i social","Un'identità visiva coerente rende il brand immediatamente riconoscibile, anche solo scorrendo velocemente il feed."],
+      ["Pubblica 1 Reel/Shorts al giorno per 30 giorni","La costanza è ciò che gli algoritmi premiano di più: un test di 30 giorni ti dà dati reali su cosa funziona."],
+      ["Crea una serie di 10 video 'Tarocchi del Giorno'","Un format ricorrente e riconoscibile costruisce l'abitudine nel pubblico a tornare a seguirti ogni giorno."],
+      ["Avvia una collaborazione con un micro-influencer","I micro-influencer hanno community più piccole ma più coinvolte, spesso con un ritorno migliore rispetto a grandi nomi generalisti."],
+      ["Crea un gruppo Facebook 'Comunità di Anna'","Un gruppo crea appartenenza e ti dà un canale diretto per raccogliere feedback e capire davvero cosa vuole il tuo pubblico."],
+      ["Pubblica 3 post educativi alla settimana","Il contenuto che insegna qualcosa costruisce fiducia molto più velocemente del contenuto puramente promozionale."],
+      ["Usa hashtag strategici in ogni post","Hashtag pertinenti e non troppo generici aumentano la probabilità di essere scoperto da chi non ti segue ancora."],
+      ["Analizza le metriche dei social e ottimizza","Senza guardare i dati continui a pubblicare alla cieca: le metriche ti dicono cosa il pubblico vuole davvero vedere di più."],
+      ["Crea un piano contenuti mensile per ogni social","Pianificare in anticipo per ciascuna piattaforma evita di improvvisare e ti permette di adattare lo stesso messaggio al formato giusto."],
+      ["Rispondi a tutti i commenti e messaggi entro 24 ore","La velocità di risposta è uno dei segnali più forti di affidabilità percepita e aumenta l'engagement premiato dagli algoritmi."],
+      ["🏆 BOOSTER — 10.000 follower su TikTok/Instagram","Una soglia che dimostra che il brand ha costruito un'audience reale, non solo di passaggio, su cui costruire lanci futuri."]
+    ]},
+    { icon: "💬", nome: "Community", checks: [
+      ["Partecipa a gruppi Facebook italiani di esoterismo","Ti mette in contatto diretto con community già formate e interessate al tuo settore, senza dover partire da zero."],
+      ["Iscriviti a forum italiani di esoterismo","I forum di nicchia hanno spesso utenti molto attivi e fedeli: partecipare con valore ti porta visibilità genuina nel tempo."],
+      ["Crea un profilo su Etsy con link al Shopify","Etsy ha già traffico qualificato in cerca di prodotti di nicchia come i tuoi, un canale extra oltre al tuo negozio."],
+      ["Partecipa a eventi online (webinar, live)","Ti dà visibilità presso pubblici che non ti conoscono ancora e ti posiziona come voce autorevole del settore."],
+      ["Crea una pagina Facebook dedicata al negozio","È ancora il social con la base utenti più ampia in Italia e resta un canale importante per pubblico adulto."],
+      ["Organizza una diretta Instagram ogni 2 settimane","Le dirette creano un contatto più personale e in tempo reale, rafforzando la fiducia rispetto ai contenuti registrati."],
+      ["Crea un gruppo Telegram di supporto per clienti","Un canale diretto di assistenza aumenta la soddisfazione dei clienti e riduce il carico di richieste sparse su più piattaforme."],
+      ["Raccogli testimonianze video dai clienti","Le testimonianze video sono tra i contenuti più persuasivi che esistano: mostrano prova sociale reale, non dichiarata dal brand stesso."],
+      ["Partecipa a podcast del settore come ospite","Ti espone all'audience già costruita di un altro creator, con un livello di fiducia trasferito molto alto."],
+      ["Crea una community su Discord per appassionati","Discord permette conversazioni più approfondite e continuative rispetto ai social, ideale per un nucleo di fan molto coinvolti."],
+      ["Fai una sessione AMA (Ask Me Anything) su Reddit","Un formato che genera engagement alto e trasparenza, utile per costruire fiducia in una community spesso scettica verso la pubblicità."],
+      ["Crea un referral program per clienti fedeli","I clienti soddisfatti che ricevono un incentivo a segnalarti diventano una fonte di nuovi clienti a costo di acquisizione molto basso."],
+      ["🏆 BOOSTER — 50 recensioni a 5 stelle su Google","Le recensioni sono uno dei fattori decisivi nella scelta d'acquisto: 50 recensioni positive costruiscono una prova sociale difficile da ignorare."]
+    ]},
+    { icon: "📧", nome: "Email", checks: [
+      ["Aggiungi popup di iscrizione con incentivo","Un piccolo incentivo (sconto, guida gratuita) aumenta sensibilmente il tasso di iscrizione rispetto a un semplice modulo vuoto."],
+      ["Invia newsletter mensile con contenuti di valore","Mantiene il brand presente nella mente dei tuoi contatti anche quando non stanno comprando, così ti pensano quando ne hanno bisogno."],
+      ["Crea 3 sequenze automatiche (benvenuto, carrello, post-acquisto)","Le automazioni lavorano 24 ore su 24 senza intervento manuale, recuperando vendite che altrimenti andrebbero perse."],
+      ["Segmenta la lista per interessi (cristalli, tarocchi)","Messaggi mirati agli interessi specifici hanno tassi di apertura e conversione molto più alti di un invio generico a tutti."],
+      ["Crea un lead magnet (ebook, guida, video)","Un contenuto gratuito di valore reale è il modo più efficace per convincere qualcuno a lasciarti la propria email."],
+      ["Invia una survey alla lista per conoscere il pubblico","Chiedere direttamente cosa vuole il tuo pubblico ti evita di indovinare e ti dà idee concrete per prodotti e contenuti futuri."],
+      ["Crea una sequenza di re-engagement per inattivi","Recuperare un contatto inattivo costa molto meno che acquistarne uno nuovo, e spesso basta un messaggio ben mirato per riattivarlo."],
+      ["Aggiungi un modulo di iscrizione nel footer","Un punto di iscrizione sempre visibile intercetta chi naviga più pagine ma non ha ancora trovato un motivo per iscriversi altrove."],
+      ["Invia una newsletter settimanale (non solo mensile)","Una cadenza più frequente mantiene il rapporto più caldo, purché il contenuto resti di valore e non solo promozionale."],
+      ["Offri contenuti esclusivi per iscritti (sconti)","Dare qualcosa che solo gli iscritti ricevono rafforza il valore percepito dell'iscrizione e riduce le disiscrizioni."],
+      ["Testa A/B gli oggetti delle email","Piccole differenze nell'oggetto possono cambiare drasticamente il tasso di apertura: testare toglie le supposizioni e lascia parlare i dati."],
+      ["Analizza tassi di apertura e click e ottimizza","Sono i due numeri che ti dicono se le email funzionano davvero o se stanno solo riempiendo la casella di posta."],
+      ["Pulisci la lista rimuovendo contatti inattivi da oltre 6 mesi","Una lista pulita migliora la deliverability generale: troppi contatti inattivi possono far finire le tue email nello spam."],
+      ["🏆 BOOSTER — 1.000 iscritti alla newsletter","Una lista di questa dimensione è un canale di vendita diretto e di proprietà, non soggetto agli algoritmi dei social."]
+    ]},
+    { icon: "⚡", nome: "Conversioni", checks: [
+      ["Aggiungi recensioni ai prodotti (app gratuita)","Le recensioni visibili sulla scheda prodotto sono uno dei fattori che più influenzano la decisione d'acquisto finale."],
+      ["Crea la collezione 'Inizia da qui' per i nuovi visitatori","Guida chi arriva per la prima volta senza sapere da dove iniziare, riducendo la dispersione e l'abbandono del sito."],
+      ["Crea la pagina 'Chi è Anna' con foto e storia","Le persone comprano da persone: una pagina autentica costruisce fiducia e differenzia il brand da un negozio anonimo."],
+      ["Imposta popup di uscita con sconto o offerta","Intercetta i visitatori che stanno per abbandonare il sito senza acquistare, offrendo un ultimo incentivo a convertire."],
+      ["Ottimizza velocità e mobile-friendliness","La maggior parte del traffico oggi arriva da mobile: un sito lento o mal ottimizzato per smartphone perde vendite ogni giorno."],
+      ["Aggiungi un countdown timer per offerte a tempo","La scarsità temporale è una delle leve psicologiche più efficaci per spingere una decisione d'acquisto rimandata."],
+      ["Crea un programma fedeltà (punti, sconti progressivi)","Premiare i clienti abituali aumenta il valore che ognuno genera nel tempo, invece di puntare solo a nuovi acquirenti."],
+      ["Imposta l'upsell e cross-sell nel carrello","Suggerire prodotti correlati al momento giusto aumenta il valore medio dell'ordine senza bisogno di nuovo traffico."],
+      ["Aggiungi un chatbot di supporto (Tidio)","Rispondere subito ai dubbi prima dell'acquisto riduce l'abbandono del carrello dovuto a domande senza risposta immediata."],
+      ["Crea pagine prodotto con descrizioni persuasive","Una descrizione che comunica benefici reali, non solo caratteristiche tecniche, converte molto meglio di un semplice elenco."],
+      ["Aggiungi un pulsante 'Acquista ora' sticky in mobile","Su mobile lo spazio è limitato: un pulsante sempre visibile riduce l'attrito tra decisione e acquisto effettivo."],
+      ["Imposta il pagamento in 3 rate (Scalapay/Klarna)","Dividere il pagamento abbassa la percezione del prezzo e può sbloccare acquisti che altrimenti verrebbero rimandati."],
+      ["Analizza il funnel d'acquisto e individua dove si abbandona di più","Sapere esattamente in quale punto le persone lasciano il sito ti permette di intervenire dove serve davvero, invece che a caso."],
+      ["🏆 BOOSTER — 1.000€ di fatturato nel primo mese","È la prova concreta che l'intero sistema — SEO, contenuti, social, community, email e conversione — sta funzionando insieme."]
+    ]}
+  ];
+
+  const STORAGE_KEY = "m7-state";
+  let state = { projectName: null, faseAttiva: 0, progressi: {}, theme: "antracite" };
+
+  const root = document.getElementById("m7-root");
+
+  function totalTasks() { return FASI.reduce((s, f) => s + f.checks.length, 0); }
+
+  async function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        state = Object.assign(state, parsed);
+      }
+    } catch (e) { /* nessuno stato salvato ancora, o localStorage non disponibile */ }
+  }
+
+  async function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (e) { console.error("Errore salvataggio:", e); }
+  }
+
+  function escapeHtml(str) {
+    const d = document.createElement("div");
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function debounce(fn, delay) {
+    let t;
+    return (...args) => {
+      clearTimeout(t);
+      t = setTimeout(() => fn(...args), delay);
+    };
+  }
+  const debouncedSaveNote = debounce(saveState, 600);
+
+  function slugify(str) {
+    return (str || "progetto")
+      .toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "") || "progetto";
+  }
+
+  function exportProgress() {
+    const payload = {
+      tipo: "magnifici7-salvataggio",
+      versione: 1,
+      esportatoIl: new Date().toISOString(),
+      projectName: state.projectName,
+      faseAttiva: state.faseAttiva,
+      progressi: state.progressi
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    const dateStr = new Date().toISOString().slice(0, 10);
+    a.href = url;
+    a.download = `magnifici7-${slugify(state.projectName)}-${dateStr}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function importProgress(file) {
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      let data;
+      try {
+        data = JSON.parse(e.target.result);
+      } catch (err) {
+        alert("Il file selezionato non è un salvataggio valido (JSON non leggibile).");
+        return;
+      }
+      if (!data || typeof data.progressi !== "object") {
+        alert("Il file non sembra un salvataggio de I Magnifici 7. Controlla di aver scelto il file giusto.");
+        return;
+      }
+      const applyImport = async (mode) => {
+        if (mode === "sostituisci") {
+          state.progressi = data.progressi || {};
+        } else {
+          state.progressi = Object.assign({}, state.progressi, data.progressi || {});
+        }
+        if (data.projectName && (mode === "sostituisci" || !state.projectName)) {
+          state.projectName = data.projectName;
+        }
+        if (typeof data.faseAttiva === "number") state.faseAttiva = data.faseAttiva;
+        await saveState();
+        render();
+      };
+      const hasExisting = Object.keys(state.progressi || {}).length > 0;
+      if (hasExisting) {
+        const scelta = confirm(
+          `Hai già progressi salvati per "${state.projectName}".\n\nOK = sostituisci tutto con il file importato ("${data.projectName || "senza nome"}")\nAnnulla = unisci il file importato con i progressi attuali`
+        );
+        await applyImport(scelta ? "sostituisci" : "unisci");
+      } else {
+        await applyImport("sostituisci");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function calcolaAvanzamento() {
+    let total = 0, done = 0, boosterDone = 0;
+    FASI.forEach((fase, idx) => {
+      fase.checks.forEach((_, i) => {
+        const key = idx + "_" + i;
+        total++;
+        if (state.progressi[key] && state.progressi[key].completato) {
+          done++;
+          if (i === fase.checks.length - 1) boosterDone++;
+        }
+      });
+    });
+    const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+    return { total, done, boosterDone, percent };
+  }
+
+  function sendReport() {
+    const { done, total, percent, boosterDone } = calcolaAvanzamento();
+    if (percent < CONFIG.minPercentToSend) {
+      alert(`Completa almeno il ${CONFIG.minPercentToSend}% della checklist prima di inviare (ora sei al ${percent}%). Continua a compilare e riprova!`);
+      return;
+    }
+    // Scarica il file di salvataggio da allegare
+    exportProgress();
+    const subject = encodeURIComponent(`Progressi "${state.projectName}" — I Magnifici 7 (${percent}%)`);
+    const body = encodeURIComponent(
+      `Ciao,\n\nti invio i progressi del progetto "${state.projectName}".\n\n` +
+      `Completati: ${done}/${total} (${percent}%)\nBooster ottenuti: ${boosterDone}/7\n\n` +
+      `⚠️ Ho appena scaricato il file di salvataggio (.json) — ricordati di allegarlo a questa email prima di inviarla!\n\n`
+    );
+    window.location.href = `mailto:${CONFIG.recipientEmail}?subject=${subject}&body=${body}`;
+  }
+
+  function render() {
+    if (!state.projectName) {
+      renderModal();
+      return;
+    }
+
+    const { total, done, boosterDone, percent } = calcolaAvanzamento();
+
+    let fasiHtml = "";
+    FASI.forEach((fase, idx) => {
+      const active = idx === state.faseAttiva ? " active" : "";
+      let faseDone = 0;
+      fase.checks.forEach((_, i) => {
+        const key = idx + "_" + i;
+        if (state.progressi[key] && state.progressi[key].completato) faseDone++;
+      });
+      const pct = Math.round((faseDone / fase.checks.length) * 100);
+      const lastKey = idx + "_" + (fase.checks.length - 1);
+      const boosterDoneLocal = state.progressi[lastKey] && state.progressi[lastKey].completato;
+      let statusIcon = "⏳";
+      if (pct === 100 && boosterDoneLocal) statusIcon = "🏆";
+      else if (pct === 100) statusIcon = "✅";
+      else if (pct > 0) statusIcon = "🔄";
+
+      fasiHtml += `
+        <div class="m7-fase-card${active}" data-fase="${idx}">
+          <span class="m7-icon">${fase.icon}</span>
+          <span class="m7-nome">${fase.nome}</span>
+          <span class="m7-status">${statusIcon}</span>
+          <span class="m7-count">${faseDone}/${fase.checks.length}</span>
+          <div class="m7-mini"><div class="m7-mini-fill" style="width:${pct}%"></div></div>
+        </div>`;
+    });
+
+    const faseAttivaObj = FASI[state.faseAttiva];
+    let faseDoneCount = 0;
+    faseAttivaObj.checks.forEach((_, i) => {
+      const key = state.faseAttiva + "_" + i;
+      if (state.progressi[key] && state.progressi[key].completato) faseDoneCount++;
+    });
+    const fasePercent = Math.round((faseDoneCount / faseAttivaObj.checks.length) * 100);
+
+    let itemsHtml = "";
+    faseAttivaObj.checks.forEach((task, i) => {
+      const key = state.faseAttiva + "_" + i;
+      const data = state.progressi[key] || { completato: false, note: "" };
+      const isBooster = i === faseAttivaObj.checks.length - 1;
+      const doneClass = data.completato ? " done" : "";
+      const boosterClass = isBooster ? " booster" : "";
+      const title = task[0].replace("🏆 BOOSTER — ", "");
+      itemsHtml += `
+        <div class="m7-check-item${doneClass}${boosterClass}">
+          <input type="checkbox" class="m7-checkbox" data-key="${key}" ${data.completato ? "checked" : ""}>
+          <div class="m7-content">
+            <span class="m7-title"><span class="m7-done-icon">${data.completato ? "✅" : "⬜"}</span>${escapeHtml(title)}${isBooster ? '<span class="m7-booster-badge">🏆 BOOSTER</span>' : ""}</span>
+            <div class="m7-spiegazione" id="m7-spiega-${key}">💡 ${escapeHtml(task[1])}</div>
+            <textarea class="m7-note" data-key="${key}" placeholder="📝 Note personali...">${escapeHtml(data.note || "")}</textarea>
+          </div>
+          <button class="m7-toggle" data-key="${key}">📖 Spiegazione</button>
+        </div>`;
+    });
+
+    const themeSwatches = Object.entries(THEMES).map(([key, t]) =>
+      `<div class="m7-theme-swatch${state.theme === key ? " active" : ""}" data-theme="${key}" style="background:${t.swatch}" title="${t.label}"></div>`
+    ).join("");
+
+    root.innerHTML = `
+      <div class="m7-container">
+        <div class="m7-header">
+          <div class="m7-title-block">
+            <span class="m7-rocket">🚀</span>
+            <input class="m7-project-name" id="m7-project-input" value="${escapeHtml(state.projectName)}" spellcheck="false">
+            <span class="m7-badge">✦ I MAGNIFICI 7</span>
+            <div class="m7-theme-picker">${themeSwatches}</div>
+          </div>
+          <div class="m7-header-actions">
+            <button class="m7-btn" id="m7-export-btn">⬇️ Esporta</button>
+            <button class="m7-btn" id="m7-import-btn">⬆️ Importa</button>
+            <input type="file" id="m7-import-file" accept=".json,application/json" style="display:none;">
+            <a class="m7-btn" id="m7-ebook-btn" href="${CONFIG.ebookUrl}" target="_blank" download>📖 Ebook gratis</a>
+            <button class="m7-btn" id="m7-pdf-btn">📄 PDF</button>
+            <button class="m7-btn m7-send" id="m7-send-btn">📤 Invia a</button>
+            <button class="m7-btn m7-danger" id="m7-reset-btn">↺ Reset</button>
+          </div>
+        </div>
+
+        <div class="m7-stats">
+          <span class="m7-stat">📊 Completati <strong>${done}</strong>/${total}</span>
+          <span class="m7-stat">📈 Progresso <strong>${percent}%</strong></span>
+          <span class="m7-stat">🏆 Booster <strong>${boosterDone}</strong>/7</span>
+          <span class="m7-stat">🚩 Fase <strong>${faseAttivaObj.nome}</strong></span>
+        </div>
+
+        <div class="m7-progress-label"><span>Avanzamento generale</span><span>${percent}%</span></div>
+        <div class="m7-bar"><div class="m7-fill" style="width:${percent}%"></div></div>
+
+        <div class="m7-fasi">${fasiHtml}</div>
+
+        <div class="m7-dettaglio">
+          <div class="m7-dettaglio-head">
+            <h2>${faseAttivaObj.icon} ${faseAttivaObj.nome}</h2>
+            <span class="m7-phase-badge">${faseDoneCount}/${faseAttivaObj.checks.length} · ${fasePercent}%</span>
+          </div>
+          ${itemsHtml}
+        </div>
+      </div>
+    `;
+
+    attachEvents();
+  }
+
+  function renderModal() {
+    root.innerHTML = `
+      <div class="m7-modal-overlay">
+        <div class="m7-modal">
+          <div style="font-size:2rem;">🚀</div>
+          <h2>I Magnifici 7</h2>
+          <p>Hai già un salvataggio da riprendere, oppure inizi un progetto nuovo?</p>
+
+          <div class="m7-modal-tabs">
+            <button class="m7-modal-tab active" data-tab="importa">⬆️ Ho un salvataggio</button>
+            <button class="m7-modal-tab" data-tab="nuovo">🆕 Nuovo progetto</button>
+          </div>
+
+          <div class="m7-modal-panel active" data-panel="importa">
+            <div class="m7-modal-dropzone" id="m7-modal-dropzone">
+              <span class="m7-dz-icon">📁</span>
+              <span class="m7-dz-text">Clicca per scegliere il file .json del salvataggio<br>(o trascinalo qui)</span>
+              <div class="m7-modal-filename" id="m7-modal-filename"></div>
+            </div>
+            <input type="file" id="m7-modal-file" accept=".json,application/json" style="display:none;">
+          </div>
+
+          <div class="m7-modal-panel" data-panel="nuovo">
+            <input type="text" id="m7-name-input" placeholder="Es. Magic Store Milano">
+            <button id="m7-start-btn">🚀 Crea progetto</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const tabs = root.querySelectorAll(".m7-modal-tab");
+    const panels = root.querySelectorAll(".m7-modal-panel");
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        tabs.forEach((t) => t.classList.remove("active"));
+        panels.forEach((p) => p.classList.remove("active"));
+        tab.classList.add("active");
+        root.querySelector(`.m7-modal-panel[data-panel="${tab.dataset.tab}"]`).classList.add("active");
+      });
+    });
+
+    // Percorso: nuovo progetto
+    const input = document.getElementById("m7-name-input");
+    const btn = document.getElementById("m7-start-btn");
+    const start = async () => {
+      const val = input.value.trim();
+      if (!val) { input.focus(); return; }
+      state.projectName = val;
+      await saveState();
+      render();
+    };
+    btn.addEventListener("click", start);
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") start(); });
+
+    // Percorso: importa salvataggio esistente
+    const dropzone = document.getElementById("m7-modal-dropzone");
+    const modalFile = document.getElementById("m7-modal-file");
+    const filenameEl = document.getElementById("m7-modal-filename");
+
+    const handleModalFile = (file) => {
+      if (!file) return;
+      filenameEl.textContent = "Caricamento di " + file.name + "...";
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        let data;
+        try {
+          data = JSON.parse(e.target.result);
+        } catch (err) {
+          filenameEl.textContent = "";
+          alert("Questo file non è un salvataggio valido (JSON non leggibile).");
+          return;
+        }
+        if (!data || typeof data.progressi !== "object" || !data.projectName) {
+          filenameEl.textContent = "";
+          alert("Il file non contiene un progetto riconoscibile de I Magnifici 7.");
+          return;
+        }
+        state.projectName = data.projectName;
+        state.progressi = data.progressi || {};
+        state.faseAttiva = typeof data.faseAttiva === "number" ? data.faseAttiva : 0;
+        await saveState();
+        render();
+      };
+      reader.readAsText(file);
+    };
+
+    dropzone.addEventListener("click", () => { modalFile.value = ""; modalFile.click(); });
+    modalFile.addEventListener("change", (e) => handleModalFile(e.target.files[0]));
+    dropzone.addEventListener("dragover", (e) => { e.preventDefault(); dropzone.classList.add("dragover"); });
+    dropzone.addEventListener("dragleave", () => dropzone.classList.remove("dragover"));
+    dropzone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropzone.classList.remove("dragover");
+      handleModalFile(e.dataTransfer.files[0]);
+    });
+  }
+
+  function attachEvents() {
+    document.getElementById("m7-project-input").addEventListener("change", async (e) => {
+      state.projectName = e.target.value.trim() || state.projectName;
+      await saveState();
+    });
+
+    document.getElementById("m7-pdf-btn").addEventListener("click", () => {
+      window.print();
+    });
+
+    document.getElementById("m7-export-btn").addEventListener("click", () => {
+      exportProgress();
+    });
+
+    const fileInput = document.getElementById("m7-import-file");
+    document.getElementById("m7-import-btn").addEventListener("click", () => {
+      fileInput.value = "";
+      fileInput.click();
+    });
+    fileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) importProgress(file);
+    });
+
+    document.getElementById("m7-send-btn").addEventListener("click", () => {
+      sendReport();
+    });
+
+    root.querySelectorAll(".m7-theme-swatch").forEach((sw) => {
+      sw.addEventListener("click", async () => {
+        state.theme = sw.dataset.theme;
+        applyTheme(state.theme);
+        await saveState();
+        render();
+      });
+    });
+
+    document.getElementById("m7-reset-btn").addEventListener("click", async () => {
+      if (confirm("Sicuro di voler azzerare tutti i progressi? L'azione non è reversibile.")) {
+        state = { projectName: state.projectName, faseAttiva: 0, progressi: {} };
+        await saveState();
+        render();
+      }
+    });
+
+    root.querySelectorAll(".m7-fase-card").forEach((card) => {
+      card.addEventListener("click", async () => {
+        state.faseAttiva = parseInt(card.dataset.fase, 10);
+        await saveState();
+        render();
+      });
+    });
+
+    root.querySelectorAll(".m7-checkbox").forEach((cb) => {
+      cb.addEventListener("change", async (e) => {
+        const key = e.target.dataset.key;
+        if (!state.progressi[key]) state.progressi[key] = { completato: false, note: "" };
+        state.progressi[key].completato = e.target.checked;
+        await saveState();
+        render();
+      });
+    });
+
+    root.querySelectorAll(".m7-toggle").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.key;
+        const el = document.getElementById("m7-spiega-" + key);
+        const isOpen = el.style.display === "block";
+        el.style.display = isOpen ? "none" : "block";
+        btn.textContent = isOpen ? "📖 Spiegazione" : "📕 Chiudi";
+      });
+    });
+
+    root.querySelectorAll(".m7-note").forEach((ta) => {
+      ta.addEventListener("input", (e) => {
+        const key = e.target.dataset.key;
+        if (!state.progressi[key]) state.progressi[key] = { completato: false, note: "" };
+        state.progressi[key].note = e.target.value;
+        debouncedSaveNote();
+      });
+    });
+  }
+
+  (async function init() {
+    root.innerHTML = `<div style="padding:60px;text-align:center;color:#9a8cb8;">Caricamento...</div>`;
+    await loadState();
+    applyTheme(state.theme || "antracite");
+    render();
+  })();
+})();
+</script>
+</body>
+</html>

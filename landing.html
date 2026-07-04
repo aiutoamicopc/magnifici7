@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Magnifici 7 — La checklist gratuita per far decollare il tuo progetto online</title>
+<style>
+  /* ============================================================
+     CONFIGURAZIONE — modifica questi 5 valori prima di pubblicare
+     ============================================================ */
+  /* vedi anche il blocco CONFIG dentro il tag <script> più in basso */
+</style>
+</head>
+<body>
+<div id="lp-root"></div>
+
+<style>
+  html, body { margin: 0; padding: 0; }
+  #lp-root * { box-sizing: border-box; }
+  #lp-root {
+    --bg: #0b0818;
+    --bg2: #150f28;
+    --panel: linear-gradient(145deg, #110d22, #1a1430);
+    --border: rgba(140, 100, 220, 0.14);
+    --accent: #b388ff;
+    --accent-dim: #6a4c9c;
+    --pink: #ff8fb1;
+    --text: #e8e0f0;
+    --text-dim: #9a8cb8;
+    --text-faint: #6f6488;
+    --gold: #ffd54f;
+    --green: #4caf84;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  #lp-root .lp-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 6vw; max-width: 1100px; margin: 0 auto;
+  }
+  #lp-root .lp-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.05rem; color: #c6a8ff; }
+  #lp-root .lp-brand-icon { font-size: 1.3rem; }
+
+  #lp-root .lp-hero {
+    max-width: 780px; margin: 0 auto; padding: 40px 6vw 20px; text-align: center;
+  }
+  #lp-root .lp-eyebrow {
+    display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--gold); background: rgba(255,213,79,0.1); border: 1px solid rgba(255,213,79,0.25);
+    padding: 5px 14px; border-radius: 20px; margin-bottom: 20px;
+  }
+  #lp-root .lp-hero h1 {
+    font-size: clamp(1.9rem, 4.5vw, 3rem); line-height: 1.15; font-weight: 800;
+    margin: 0 0 16px; background: linear-gradient(120deg, #ece4ff, #b388ff 60%, #ff8fb1);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  #lp-root .lp-hero p.lp-sub {
+    font-size: 1.05rem; color: var(--text-dim); line-height: 1.6; max-width: 560px; margin: 0 auto 28px;
+  }
+  #lp-root .lp-cta-btn {
+    display: inline-block; background: linear-gradient(90deg, #6a4c9c, #b388ff);
+    color: #fff; font-weight: 700; font-size: 0.95rem; padding: 14px 34px;
+    border-radius: 30px; border: none; cursor: pointer; text-decoration: none;
+    box-shadow: 0 8px 24px rgba(106,76,156,0.35);
+  }
+
+  #lp-root .lp-phases {
+    max-width: 980px; margin: 44px auto; padding: 0 6vw;
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;
+  }
+  @media (max-width: 900px) { #lp-root .lp-phases { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 560px) { #lp-root .lp-phases { grid-template-columns: repeat(2, 1fr); } }
+  #lp-root .lp-phase-card {
+    background: rgba(20,15,40,0.5); border: 1px solid var(--border); border-radius: 14px;
+    padding: 16px 8px; text-align: center;
+  }
+  #lp-root .lp-phase-card .lp-icon { font-size: 1.5rem; display: block; margin-bottom: 6px; }
+  #lp-root .lp-phase-card .lp-nome { font-size: 0.72rem; font-weight: 600; color: #d0c4ec; }
+
+  #lp-root .lp-value {
+    max-width: 700px; margin: 0 auto 50px; padding: 0 6vw;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+  }
+  @media (max-width: 600px) { #lp-root .lp-value { grid-template-columns: 1fr; } }
+  #lp-root .lp-value-item { display: flex; gap: 10px; align-items: flex-start; font-size: 0.85rem; color: var(--text-dim); }
+  #lp-root .lp-value-item span.lp-check { color: var(--green); font-size: 1rem; }
+
+  #lp-root .lp-form-section {
+    max-width: 480px; margin: 0 auto 80px; padding: 0 6vw;
+  }
+  #lp-root .lp-form-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 24px; padding: 34px 30px;
+  }
+  #lp-root .lp-form-card h2 { font-size: 1.3rem; margin: 0 0 8px; color: #ece4ff; text-align: center; }
+  #lp-root .lp-form-card p.lp-form-sub { font-size: 0.82rem; color: var(--text-dim); text-align: center; margin: 0 0 24px; }
+
+  #lp-root label { display: block; font-size: 0.75rem; color: var(--text-dim); margin: 14px 0 6px; }
+  #lp-root input[type="text"], #lp-root input[type="email"], #lp-root input[type="tel"] {
+    width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 14px; color: var(--text); font-size: 0.9rem;
+  }
+  #lp-root input::placeholder { color: var(--text-faint); }
+
+  #lp-root .lp-consent {
+    display: flex; gap: 10px; align-items: flex-start; margin-top: 18px;
+    font-size: 0.72rem; color: var(--text-dim); line-height: 1.5;
+  }
+  #lp-root .lp-consent input { width: 16px; height: 16px; margin-top: 2px; accent-color: var(--accent-dim); flex-shrink: 0; }
+  #lp-root .lp-consent a { color: var(--accent); }
+
+  #lp-root .lp-submit {
+    width: 100%; margin-top: 22px; background: linear-gradient(90deg, #6a4c9c, #b388ff);
+    color: #fff; font-weight: 700; font-size: 0.95rem; padding: 14px; border-radius: 12px;
+    border: none; cursor: pointer;
+  }
+  #lp-root .lp-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+  #lp-root .lp-error { color: #ff8f8f; font-size: 0.75rem; margin-top: 10px; display: none; }
+
+  #lp-root .lp-thankyou { text-align: center; display: none; }
+  #lp-root .lp-thankyou .lp-ty-icon { font-size: 2.4rem; margin-bottom: 10px; }
+  #lp-root .lp-thankyou h2 { color: #ece4ff; }
+  #lp-root .lp-thankyou p { color: var(--text-dim); font-size: 0.88rem; line-height: 1.6; }
+  #lp-root .lp-qr-box {
+    background: #fff; border-radius: 16px; padding: 16px; display: inline-block; margin: 18px 0;
+  }
+  #lp-root .lp-qr-box img { display: block; width: 180px; height: 180px; }
+  #lp-root .lp-direct-link {
+    display: inline-block; margin-top: 6px; color: var(--accent); font-size: 0.85rem; text-decoration: none;
+    border-bottom: 1px dashed var(--accent-dim);
+  }
+
+  #lp-root .lp-footer {
+    text-align: center; padding: 24px 6vw 40px; color: var(--text-faint); font-size: 0.72rem;
+  }
+</style>
+
+<script>
+(function() {
+  // ============================================================
+  // CONFIGURAZIONE — da compilare prima di pubblicare
+  // ============================================================
+  const CONFIG = {
+    // URL dove hai pubblicato magnifici7.html (es. https://tuonome.github.io/magnifici7/magnifici7.html)
+    checklistUrl: "https://TUONOME.github.io/magnifici7/magnifici7.html",
+
+    // Vedi istruzioni sotto per ottenere questi valori dal tuo Google Form
+    googleFormActionUrl: "", // es. "https://docs.google.com/forms/d/e/XXXXXXX/formResponse"
+    entryNome: "",      // es. "entry.111111111"
+    entryEmail: "",     // es. "entry.222222222"
+    entryTelefono: "",  // es. "entry.333333333"
+
+    // URL dove hai pubblicato il PDF dell'ebook (stesso repo GitHub, es. .../ebook.pdf)
+    ebookUrl: "https://TUONOME.github.io/magnifici7/i-magnifici-7-il-metodo.pdf",
+
+    privacyPolicyUrl: "#" // link alla tua informativa privacy
+  };
+
+  /*
+    COME OTTENERE I VALORI DEL GOOGLE FORM (5 minuti):
+    1. Vai su forms.google.com e crea un nuovo form con 3 domande a risposta breve:
+       Nome, Email, Telefono (in quest'ordine, tipo "Risposta breve").
+    2. Clicca sui tre puntini in alto → "Ottieni link precompilato".
+    3. Compila i 3 campi con qualsiasi testo di prova e clicca "Ottieni link".
+    4. Copia il link generato: conterrà pezzi tipo "entry.123456789=Mario",
+       "entry.987654321=email%40test.com" ecc. Copia i numeri "entry.XXXXXXX"
+       nell'ordine giusto qui sopra (entryNome, entryEmail, entryTelefono).
+    5. Per l'URL di invio: apri il form normale (non precompilato), tasto destro
+       → "Visualizza sorgente pagina", cerca "action=" — è l'URL che finisce con
+       "/formResponse". Incollalo in googleFormActionUrl.
+    6. Le risposte arriveranno in automatico nel Google Sheet collegato al form.
+  */
+
+  const root = document.getElementById("lp-root");
+
+  root.innerHTML = `
+    <div class="lp-nav">
+      <div class="lp-brand"><span class="lp-brand-icon">🚀</span> I Magnifici 7</div>
+    </div>
+
+    <div class="lp-hero">
+      <span class="lp-eyebrow">✦ CHECKLIST GRATUITA</span>
+      <h1>7 fasi, 100 step per far decollare il tuo progetto online</h1>
+      <p class="lp-sub">Compila i tuoi dati per ricevere l'accesso alla checklist interattiva: SEO, contenuti, social, community, email marketing e conversione, spiegati passo per passo — con una spunta verde per ogni traguardo raggiunto.</p>
+      <a href="#lp-form" class="lp-cta-btn">🚀 Voglio la mia checklist gratuita</a>
+    </div>
+
+    <div class="lp-phases">
+      <div class="lp-phase-card"><span class="lp-icon">🔍</span><span class="lp-nome">SEO</span></div>
+      <div class="lp-phase-card"><span class="lp-icon">📝</span><span class="lp-nome">Blog</span></div>
+      <div class="lp-phase-card"><span class="lp-icon">🌍</span><span class="lp-nome">Satellite</span></div>
+      <div class="lp-phase-card"><span class="lp-icon">📱</span><span class="lp-nome">Social</span></div>
+      <div class="lp-phase-card"><span class="lp-icon">💬</span><span class="lp-nome">Community</span></div>
+      <div class="lp-phase-card"><span class="lp-icon">📧</span><span class="lp-nome">Email</span></div>
+      <div class="lp-phase-card"><span class="lp-icon">⚡</span><span class="lp-nome">Conversioni</span></div>
+    </div>
+
+    <div class="lp-value">
+      <div class="lp-value-item"><span class="lp-check">✓</span> Spiegazione pratica per ogni singolo step</div>
+      <div class="lp-value-item"><span class="lp-check">✓</span> Note personali e progressi salvati in automatico</div>
+      <div class="lp-value-item"><span class="lp-check">✓</span> Obiettivi "booster" per accelerare i risultati</div>
+      <div class="lp-value-item"><span class="lp-check">✓</span> Puoi inviarci i tuoi progressi con un click</div>
+      <div class="lp-value-item"><span class="lp-check">✓</span> In regalo: l'ebook "I Magnifici 7 — Il Metodo" (35 pagine)</div>
+    </div>
+
+    <div class="lp-form-section" id="lp-form">
+      <div class="lp-form-card">
+
+        <form id="lp-lead-form">
+          <h2>Ricevi la tua checklist</h2>
+          <p class="lp-form-sub">Bastano 30 secondi. Poi inquadri il QR code col cellulare e inizi subito.</p>
+
+          <label for="lp-nome">Nome</label>
+          <input type="text" id="lp-nome" placeholder="Il tuo nome" required>
+
+          <label for="lp-email">Email</label>
+          <input type="email" id="lp-email" placeholder="nome@esempio.it" required>
+
+          <label for="lp-telefono">Cellulare</label>
+          <input type="tel" id="lp-telefono" placeholder="Es. 333 1234567" required>
+
+          <div class="lp-consent">
+            <input type="checkbox" id="lp-consenso" required>
+            <label for="lp-consenso" style="margin:0;">Acconsento al trattamento dei miei dati (nome, email, cellulare) per ricevere la checklist e per essere eventualmente ricontattato con proposte relative ai miei progetti online, secondo la <a href="${CONFIG.privacyPolicyUrl}" target="_blank">informativa privacy</a>.</label>
+          </div>
+
+          <button type="submit" class="lp-submit" id="lp-submit-btn">🚀 Sblocca la mia checklist</button>
+          <div class="lp-error" id="lp-error">Compila tutti i campi e accetta l'informativa privacy per continuare.</div>
+        </form>
+
+        <div class="lp-thankyou" id="lp-thankyou">
+          <div class="lp-ty-icon">🎉</div>
+          <h2>Fatto, la tua checklist è pronta!</h2>
+          <p>Inquadra il QR code col cellulare per aprirla subito, oppure usa il link qui sotto. Ricorda: quando avrai completato qualche step, puoi mandarci i tuoi progressi direttamente dal tool con il pulsante "Invia a".</p>
+          <div class="lp-qr-box"><img id="lp-qr-img" alt="QR code checklist"></div>
+          <br>
+          <a class="lp-direct-link" id="lp-direct-link" href="#" target="_blank">Oppure apri la checklist da qui →</a>
+          <div style="margin-top:22px; padding-top:20px; border-top:1px solid var(--border);">
+            <p style="margin-bottom:12px;">🎁 In più, ecco il tuo ebook omaggio:</p>
+            <a class="lp-cta-btn" id="lp-ebook-btn" href="#" target="_blank" download style="font-size:0.85rem; padding:11px 26px;">📖 Scarica "I Magnifici 7 — Il Metodo"</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lp-footer">© ${new Date().getFullYear()} I Magnifici 7 — I tuoi dati sono trattati nel rispetto della normativa privacy vigente.</div>
+  `;
+
+  const form = document.getElementById("lp-lead-form");
+  const errorEl = document.getElementById("lp-error");
+  const submitBtn = document.getElementById("lp-submit-btn");
+
+  function sendToGoogleForm(nome, email, telefono) {
+    if (!CONFIG.googleFormActionUrl || !CONFIG.entryNome) {
+      console.warn("Google Form non configurato: il lead non è stato inviato a nessuna parte. Vedi istruzioni CONFIG in cima al file.");
+      return;
+    }
+    const data = new URLSearchParams();
+    data.append(CONFIG.entryNome, nome);
+    data.append(CONFIG.entryEmail, email);
+    data.append(CONFIG.entryTelefono, telefono);
+    // no-cors: l'invio parte comunque, ma non possiamo leggere la risposta di Google
+    fetch(CONFIG.googleFormActionUrl, { method: "POST", mode: "no-cors", body: data })
+      .catch((err) => console.error("Errore invio al Google Form:", err));
+  }
+
+  function showThankYou() {
+    form.style.display = "none";
+    const ty = document.getElementById("lp-thankyou");
+    ty.style.display = "block";
+    const qrData = encodeURIComponent(CONFIG.checklistUrl);
+    document.getElementById("lp-qr-img").src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${qrData}`;
+    const link = document.getElementById("lp-direct-link");
+    link.href = CONFIG.checklistUrl;
+    const ebookBtn = document.getElementById("lp-ebook-btn");
+    ebookBtn.href = CONFIG.ebookUrl;
+  }
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const nome = document.getElementById("lp-nome").value.trim();
+    const email = document.getElementById("lp-email").value.trim();
+    const telefono = document.getElementById("lp-telefono").value.trim();
+    const consenso = document.getElementById("lp-consenso").checked;
+
+    if (!nome || !email || !telefono || !consenso) {
+      errorEl.style.display = "block";
+      return;
+    }
+    errorEl.style.display = "none";
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Un attimo...";
+
+    sendToGoogleForm(nome, email, telefono);
+
+    setTimeout(showThankYou, 500);
+  });
+})();
+</script>
+</body>
+</html>
