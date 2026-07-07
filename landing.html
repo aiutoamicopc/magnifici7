@@ -38,92 +38,100 @@
 
   #lp-root .lp-nav {
     display: flex; align-items: center; justify-content: space-between;
-    padding: 20px 6vw; max-width: 1100px; margin: 0 auto;
+    padding: 32px 8vw; max-width: 1280px; margin: 0 auto;
   }
-  #lp-root .lp-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.05rem; color: #c6a8ff; }
+  #lp-root .lp-brand { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.2rem; color: #c6a8ff; }
   #lp-root .lp-brand-icon { font-size: 1.3rem; }
 
   #lp-root .lp-hero {
-    max-width: 780px; margin: 0 auto; padding: 40px 6vw 20px; text-align: center;
+    max-width: 920px; margin: 0 auto; padding: 80px 8vw 40px; text-align: center; position: relative;
   }
+  #lp-root .lp-hero::before {
+    content: ""; position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+    width: 900px; height: 500px; background: radial-gradient(ellipse at center, rgba(179,136,255,0.16), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  #lp-root .lp-hero > * { position: relative; z-index: 1; }
   #lp-root .lp-eyebrow {
     display: inline-block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em;
     color: var(--gold); background: rgba(255,213,79,0.1); border: 1px solid rgba(255,213,79,0.25);
     padding: 5px 14px; border-radius: 20px; margin-bottom: 20px;
   }
   #lp-root .lp-hero h1 {
-    font-size: clamp(1.9rem, 4.5vw, 3rem); line-height: 1.15; font-weight: 800;
-    margin: 0 0 16px; background: linear-gradient(120deg, #ece4ff, #b388ff 60%, #ff8fb1);
+    font-size: clamp(2.3rem, 5.2vw, 3.8rem); line-height: 1.12; font-weight: 800;
+    margin: 0 0 22px; background: linear-gradient(120deg, #ece4ff, #b388ff 60%, #ff8fb1);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
   #lp-root .lp-hero p.lp-sub {
-    font-size: 1.05rem; color: var(--text-dim); line-height: 1.6; max-width: 560px; margin: 0 auto 28px;
+    font-size: 1.2rem; color: var(--text-dim); line-height: 1.7; max-width: 680px; margin: 0 auto 40px;
   }
   #lp-root .lp-cta-btn {
     display: inline-block; background: linear-gradient(90deg, #6a4c9c, #b388ff);
-    color: #fff; font-weight: 700; font-size: 0.95rem; padding: 14px 34px;
+    color: #fff; font-weight: 700; font-size: 1.1rem; padding: 18px 48px;
     border-radius: 30px; border: none; cursor: pointer; text-decoration: none;
-    box-shadow: 0 8px 24px rgba(106,76,156,0.35);
+    box-shadow: 0 10px 32px rgba(106,76,156,0.4);
   }
 
   #lp-root .lp-phases {
-    max-width: 980px; margin: 44px auto; padding: 0 6vw;
-    display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px;
+    max-width: 1180px; margin: 80px auto; padding: 0 8vw;
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 18px;
   }
   @media (max-width: 900px) { #lp-root .lp-phases { grid-template-columns: repeat(4, 1fr); } }
   @media (max-width: 560px) { #lp-root .lp-phases { grid-template-columns: repeat(2, 1fr); } }
   #lp-root .lp-phase-card {
-    background: rgba(20,15,40,0.5); border: 1px solid var(--border); border-radius: 14px;
-    padding: 16px 8px; text-align: center;
+    background: rgba(20,15,40,0.5); border: 1px solid var(--border); border-radius: 16px;
+    padding: 26px 12px; text-align: center; transition: transform 0.2s, border-color 0.2s;
   }
-  #lp-root .lp-phase-card .lp-icon { font-size: 1.5rem; display: block; margin-bottom: 6px; }
-  #lp-root .lp-phase-card .lp-nome { font-size: 0.72rem; font-weight: 600; color: #d0c4ec; }
+  #lp-root .lp-phase-card:hover { transform: translateY(-3px); border-color: var(--accent-dim); }
+  #lp-root .lp-phase-card .lp-icon { font-size: 2rem; display: block; margin-bottom: 10px; }
+  #lp-root .lp-phase-card .lp-nome { font-size: 0.82rem; font-weight: 600; color: #d0c4ec; }
 
   #lp-root .lp-value {
-    max-width: 700px; margin: 0 auto 50px; padding: 0 6vw;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    max-width: 920px; margin: 0 auto 90px; padding: 0 8vw;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 22px 40px;
   }
   @media (max-width: 600px) { #lp-root .lp-value { grid-template-columns: 1fr; } }
-  #lp-root .lp-value-item { display: flex; gap: 10px; align-items: flex-start; font-size: 0.85rem; color: var(--text-dim); }
-  #lp-root .lp-value-item span.lp-check { color: var(--green); font-size: 1rem; }
+  #lp-root .lp-value-item { display: flex; gap: 14px; align-items: flex-start; font-size: 1rem; line-height: 1.5; color: var(--text-dim); padding: 8px 0; }
+  #lp-root .lp-value-item span.lp-check { color: var(--green); font-size: 1.2rem; }
 
   #lp-root .lp-form-section {
-    max-width: 480px; margin: 0 auto 80px; padding: 0 6vw;
+    max-width: 600px; margin: 0 auto 100px; padding: 0 8vw;
   }
   #lp-root .lp-form-card {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 24px; padding: 34px 30px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 28px; padding: 52px 48px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
   }
-  #lp-root .lp-form-card h2 { font-size: 1.3rem; margin: 0 0 8px; color: #ece4ff; text-align: center; }
-  #lp-root .lp-form-card p.lp-form-sub { font-size: 0.82rem; color: var(--text-dim); text-align: center; margin: 0 0 24px; }
+  #lp-root .lp-form-card h2 { font-size: 1.6rem; margin: 0 0 10px; color: #ece4ff; text-align: center; }
+  #lp-root .lp-form-card p.lp-form-sub { font-size: 0.92rem; color: var(--text-dim); text-align: center; margin: 0 0 32px; }
 
-  #lp-root label { display: block; font-size: 0.75rem; color: var(--text-dim); margin: 14px 0 6px; }
+  #lp-root label { display: block; font-size: 0.82rem; color: var(--text-dim); margin: 18px 0 7px; }
   #lp-root input[type="text"], #lp-root input[type="email"], #lp-root input[type="tel"] {
     width: 100%; background: rgba(0,0,0,0.3); border: 1px solid var(--border);
-    border-radius: 10px; padding: 12px 14px; color: var(--text); font-size: 0.9rem;
+    border-radius: 10px; padding: 14px 16px; color: var(--text); font-size: 0.98rem;
   }
   #lp-root input::placeholder { color: var(--text-faint); }
 
   #lp-root .lp-consent {
-    display: flex; gap: 10px; align-items: flex-start; margin-top: 18px;
-    font-size: 0.72rem; color: var(--text-dim); line-height: 1.5;
+    display: flex; gap: 10px; align-items: flex-start; margin-top: 22px;
+    font-size: 0.76rem; color: var(--text-dim); line-height: 1.55;
   }
   #lp-root .lp-consent input { width: 16px; height: 16px; margin-top: 2px; accent-color: var(--accent-dim); flex-shrink: 0; }
   #lp-root .lp-consent a { color: var(--accent); }
 
   #lp-root .lp-submit {
-    width: 100%; margin-top: 22px; background: linear-gradient(90deg, #6a4c9c, #b388ff);
-    color: #fff; font-weight: 700; font-size: 0.95rem; padding: 14px; border-radius: 12px;
+    width: 100%; margin-top: 28px; background: linear-gradient(90deg, #6a4c9c, #b388ff);
+    color: #fff; font-weight: 700; font-size: 1.02rem; padding: 16px; border-radius: 12px;
     border: none; cursor: pointer;
   }
   #lp-root .lp-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-  #lp-root .lp-error { color: #ff8f8f; font-size: 0.75rem; margin-top: 10px; display: none; }
+  #lp-root .lp-error { color: #ff8f8f; font-size: 0.8rem; margin-top: 12px; display: none; }
 
   #lp-root .lp-thankyou { text-align: center; display: none; }
-  #lp-root .lp-thankyou .lp-ty-icon { font-size: 2.4rem; margin-bottom: 10px; }
-  #lp-root .lp-thankyou h2 { color: #ece4ff; }
-  #lp-root .lp-thankyou p { color: var(--text-dim); font-size: 0.88rem; line-height: 1.6; }
+  #lp-root .lp-thankyou .lp-ty-icon { font-size: 2.8rem; margin-bottom: 14px; }
+  #lp-root .lp-thankyou h2 { color: #ece4ff; font-size: 1.5rem; }
+  #lp-root .lp-thankyou p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.65; margin-bottom: 20px; }
   #lp-root .lp-qr-box {
-    background: #fff; border-radius: 16px; padding: 16px; display: inline-block; margin: 18px 0;
+    background: #fff; border-radius: 16px; padding: 18px; display: inline-block; margin: 18px 0;
   }
   #lp-root .lp-qr-box img { display: block; width: 180px; height: 180px; }
   #lp-root .lp-direct-link {
@@ -146,10 +154,10 @@
     checklistUrl: "https://aiutoamicopc.github.io/magnifici7/magnifici7.html",
 
     // Vedi istruzioni sotto per ottenere questi valori dal tuo Google Form
-    googleFormActionUrl: "", // es. "https://docs.google.com/forms/d/e/XXXXXXX/formResponse"
-    entryNome: "",      // es. "entry.111111111"
-    entryEmail: "",     // es. "entry.222222222"
-    entryTelefono: "",  // es. "entry.333333333"
+    googleFormActionUrl: "https://docs.google.com/forms/d/e/1FAIpQLSdfcZID7Tqt49ZLkgE7BMNCeoHe7AIbH73rEWJnPV79pjPmAQ/formResponse",
+    entryNome: "entry.1810729534",      // es. "entry.111111111"
+    entryEmail: "entry.1576701694",     // es. "entry.222222222"
+    entryTelefono: "entry.1822361183",  // es. "entry.333333333"
 
     // URL dove hai pubblicato il PDF dell'ebook (stesso repo GitHub, es. .../ebook.pdf)
     ebookUrl: "https://aiutoamicopc.github.io/magnifici7/i-magnifici-7-il-metodo.pdf",
@@ -256,13 +264,34 @@
       console.warn("Google Form non configurato: il lead non è stato inviato a nessuna parte. Vedi istruzioni CONFIG in cima al file.");
       return;
     }
-    const data = new URLSearchParams();
-    data.append(CONFIG.entryNome, nome);
-    data.append(CONFIG.entryEmail, email);
-    data.append(CONFIG.entryTelefono, telefono);
-    // no-cors: l'invio parte comunque, ma non possiamo leggere la risposta di Google
-    fetch(CONFIG.googleFormActionUrl, { method: "POST", mode: "no-cors", body: data })
-      .catch((err) => console.error("Errore invio al Google Form:", err));
+    // Tecnica dell'iframe nascosto: equivale a un invio reale del modulo dal browser,
+    // più affidabile del fetch in modalità no-cors.
+    let iframe = document.getElementById("lp-hidden-iframe");
+    if (!iframe) {
+      iframe = document.createElement("iframe");
+      iframe.name = "lp-hidden-iframe";
+      iframe.id = "lp-hidden-iframe";
+      iframe.style.display = "none";
+      document.body.appendChild(iframe);
+    }
+
+    const hiddenForm = document.createElement("form");
+    hiddenForm.action = CONFIG.googleFormActionUrl;
+    hiddenForm.method = "POST";
+    hiddenForm.target = "lp-hidden-iframe";
+
+    const fields = { [CONFIG.entryNome]: nome, [CONFIG.entryEmail]: email, [CONFIG.entryTelefono]: telefono };
+    Object.entries(fields).forEach(([key, value]) => {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = key;
+      input.value = value;
+      hiddenForm.appendChild(input);
+    });
+
+    document.body.appendChild(hiddenForm);
+    hiddenForm.submit();
+    setTimeout(() => hiddenForm.remove(), 1000);
   }
 
   function showThankYou() {
